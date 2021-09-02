@@ -11,6 +11,7 @@
         "test": "node test.js"
     },
     "dependencies": {
-        "dotenv": "^10.0.0"
+        "dotenv": "^10.0.0",
+        "googleapis": "^85.0.0"
     }
 }
