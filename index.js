@@ -7,17 +7,26 @@ if (process.env.NODE_ENV != 'production') {
 
 const SCOPES = ["https://www.googleapis.com/auth/drive.readonly"]
 
-let oauth2Client = new google.auth.GoogleAuth({
-    keyFile: './private/service_account.json',
-    scopes: SCOPES
-});
+const fs = require('fs');
+fs.readFile('private/service_account.json', 'utf-8', (err, data) => {
+    if (err) {
+        console.log("File read failed:", err);
+        return;
+    }
+    console.log("File data:", data.type);
+})
 
-const drive = google.drive({
-    auth: oauth2Client,
-    version: 'v3'
-});
+// let oauth2Client = new google.auth.GoogleAuth({
+//     keyFile: './private/service_account.json',
+//     scopes: SCOPES
+// });
 
-const filesRes = drive.files.list();
+// const drive = google.drive({
+//     auth: oauth2Client,
+//     version: 'v3'
+// });
+
+// const filesRes = drive.files.list();
 
 // filesRes.then(val => console.log(val.data.files));
 
@@ -27,14 +36,15 @@ const port = process.env.PORT;
 const server = http.createServer((req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
-    res.end(filesRes.then(val => {
-        if (val.error) {
-            console.log(val.error);
-            return 'Sorry, something went wrong'
-        } else {
-            val.data.files;
-        }
-    }));
+    res.end('Hello world');
+    // res.end(filesRes.then(val => {
+    //     if (val.error) {
+    //         console.log(val.error);
+    //         return 'Sorry, something went wrong'
+    //     } else {
+    //         val.data.files;
+    //     }
+    // }));
   });
 
 
