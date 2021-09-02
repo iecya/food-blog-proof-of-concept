@@ -41,6 +41,9 @@ jobs:
 
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
+        env:
+          NODE_ENV: 'production'
+          HOST: https://food-blog-proof-of-concept.herokuapp.com/
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "food-blog-proof-of-concept"
