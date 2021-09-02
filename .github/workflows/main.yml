@@ -39,12 +39,9 @@ jobs:
           git-crypt unlock ./git-crypt-key
           rm ./git-crypt-key
 
-      - name: Blah
-        run: git-crypt status
-
-      # - name: Deploy to Heroku
-      #   uses: akhileshns/heroku-deploy@v3.12.12
-      #   with:
-      #     heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-      #     heroku_app_name: "food-blog-proof-of-concept"
-      #     heroku_email: ${{secrets.HEROKU_USER_EMAIL}}
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "food-blog-proof-of-concept"
+          heroku_email: ${{secrets.HEROKU_USER_EMAIL}}
