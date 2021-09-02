@@ -1,6 +1,10 @@
 const http = require('http');
 
-const hostname = process.env.HOSTNAME;
+if (process.env.NODE_ENV != 'production') {
+    require('dotenv').config();
+}
+
+const hostname = process.env.HOST;
 const port = process.env.PORT;
 
 const server = http.createServer((req, res) => {
