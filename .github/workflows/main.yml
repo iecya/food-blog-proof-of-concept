@@ -31,8 +31,11 @@ jobs:
           echo "/opt/project/bin" >> $GITHUB_PATH
 
       - name: Unlock git-crypt
+        shell: bash
+        env:
+          git_crypt_key: ${{ secrets.GIT_CRYPT_KEY }}
         run: |
-          echo ${{ secrets.GIT_CRYPT_KEY }} | base64  -d > ./git-crypt-key
+          echo "$git_crypt_key" | base64  -d > ./git-crypt-key
           git-crypt unlock ./git-crypt-key
           rm ./git-crypt-key
 
