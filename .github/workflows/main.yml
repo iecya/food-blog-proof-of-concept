@@ -46,5 +46,6 @@ jobs:
           HOST: https://food-blog-proof-of-concept.herokuapp.com/
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "food-blog-proof-of-concept"
+          heroku_app_name: 'food-blog-proof-of-concept'
           heroku_email: ${{secrets.HEROKU_USER_EMAIL}}
+          buildpack: 'https://github.com/heroku/heroku-buildpack-nodejs#latest'
