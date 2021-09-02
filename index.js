@@ -19,7 +19,7 @@ const drive = google.drive({
 
 const filesRes = drive.files.list();
 
-filesRes.then(val => console.log(val.data.files));
+// filesRes.then(val => console.log(val.data.files));
 
 const hostname = process.env.HOST;
 const port = process.env.PORT;
@@ -28,7 +28,12 @@ const server = http.createServer((req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
     res.end(filesRes.then(val => {
-        val.data.files;
+        if (val.error) {
+            console.log(val.error);
+            return 'Sorry, something went wrong'
+        } else {
+            val.data.files;
+        }
     }));
   });
 
