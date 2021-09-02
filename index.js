@@ -9,26 +9,18 @@ if (process.env.NODE_ENV != 'production') {
 
 const SCOPES = ["https://www.googleapis.com/auth/drive.readonly"]
 
-const fs = require('fs');
-fs.readFile('private/service_account.json', 'utf-8', (err, data) => {
-    if (err) {
-        console.log("File read failed:", err);
-        return;
-    }
-    console.log("File data:", data.type);
-})
 
-// let oauth2Client = new google.auth.GoogleAuth({
-//     keyFile: './private/service_account.json',
-//     scopes: SCOPES
-// });
+let oauth2Client = new google.auth.GoogleAuth({
+    keyFile: './private/service_account.json',
+    scopes: SCOPES
+});
 
-// const drive = google.drive({
-//     auth: oauth2Client,
-//     version: 'v3'
-// });
+const drive = google.drive({
+    auth: oauth2Client,
+    version: 'v3'
+});
 
-// const filesRes = drive.files.list();
+const filesRes = drive.files.list();
 
 // filesRes.then(val => console.log(val.data.files));
 
