@@ -22,7 +22,7 @@ const drive = google.drive({
 
 const filesRes = drive.files.list();
 
-// filesRes.then(val => console.log(val.data.files));
+filesRes.then(val => console.log(val.data.files));
 
 const hostname = process.env.HOST;
 const port = process.env.PORT;
