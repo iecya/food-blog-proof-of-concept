@@ -1,7 +1,9 @@
 const http = require('http');
 const {google} = require('googleapis');
 
-if (process.env.NODE_ENV != 'production') {
+isProduction = process.env.NODE_ENV == 'production';
+
+if (!isProduction) {
     require('dotenv').config();
 }
 
@@ -24,8 +26,10 @@ const drive = google.drive({
 
 // filesRes.then(val => console.log(val.data.files)).catch(rej => console.log(rej));
 
-const hostname = process.env.HOSTNAME;
+const hostname = isProduction ? 'food-blog-proof-of-concept.herokuapp.com/' : 'localhost';
 const port = process.env.PORT;
+
+console.log('hostname', hostname);
 
 const server = http.createServer((req, res) => {
     console.log('REQUEST', req);
