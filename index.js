@@ -28,6 +28,7 @@ const hostname = process.env.HOSTNAME;
 const port = process.env.PORT;
 
 const server = http.createServer((req, res) => {
+    console.log('REQUEST', req);
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
     res.end('Hello world');
