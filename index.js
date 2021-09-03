@@ -7,18 +7,18 @@ if (!isProduction) {
     require('dotenv').config();
 }
 
-const SCOPES = ["https://www.googleapis.com/auth/drive.readonly"]
+// const SCOPES = ["https://www.googleapis.com/auth/drive.readonly"]
 
 
-let oauth2Client = new google.auth.GoogleAuth({
-    keyFile: './private/service_account.json',
-    scopes: SCOPES
-});
+// let oauth2Client = new google.auth.GoogleAuth({
+//     keyFile: './private/service_account.json',
+//     scopes: SCOPES
+// });
 
-const drive = google.drive({
-    auth: oauth2Client,
-    version: 'v3'
-});
+// const drive = google.drive({
+//     auth: oauth2Client,
+//     version: 'v3'
+// });
 
 
 
@@ -26,16 +26,38 @@ const drive = google.drive({
 
 // filesRes.then(val => console.log(val.data.files)).catch(rej => console.log(rej));
 
-const hostname = isProduction ? 'food-blog-proof-of-concept.herokuapp.com/' : 'localhost';
 const port = process.env.PORT;
 
-console.log('hostname', hostname);
-
 const server = http.createServer((req, res) => {
-    console.log('REQUEST', req);
-    res.statusCode = 200;
+    var content;
+    switch(req.url) {
+        case '/':
+            res.statusCode = 200;
+            content = 'this is my homepage'
+            break;
+
+        case '/health':
+            res.statusCode = 200;
+            content = 'healthy page';
+            break;
+
+        case '/files':
+            res.statusCode = 200;
+            content = 'this is the files listing page';
+            break;
+
+        default:
+            res.statusCode = 404;
+            content = 'this page does not exists';   
+    }
     res.setHeader('Content-Type', 'text/plain');
-    res.end('Hello world');
+    res.end(content);
+
+
+    // res.statusCode = 200;
+    // res.setHeader('Content-Type', 'text/plain');
+    // res.end('Hello world');
+
     // res.end(filesRes.then(val => {
     //     if (val.error) {
     //         console.log(val.error);
@@ -47,6 +69,6 @@ const server = http.createServer((req, res) => {
   });
 
 
-  server.listen(port, hostname, () => {
-    console.log(`Server running at ${hostname}:${port}/ - hurray!`);
+  server.listen(port, () => {
+    console.log(`Server running at ${port}/ - hurray!`);
   });
