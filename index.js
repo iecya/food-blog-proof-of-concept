@@ -11,6 +11,7 @@ const SCOPES = ["https://www.googleapis.com/auth/drive.readonly"]
 
 
 let oauth2Client = new google.auth.GoogleAuth({
+    
     keyFile: './private/service_account.json',
     scopes: SCOPES
 });
@@ -20,11 +21,13 @@ const drive = google.drive({
     version: 'v3'
 });
 
-const filesRes = drive.files.list();
 
-filesRes.then(val => console.log(val.data.files)).catch(rej => console.log(rej));
 
-const hostname = process.env.HOST;
+// const filesRes = drive.files.list();
+
+// filesRes.then(val => console.log(val.data.files)).catch(rej => console.log(rej));
+
+const host = process.env.HOST;
 const port = process.env.PORT;
 
 const server = http.createServer((req, res) => {
@@ -42,6 +45,6 @@ const server = http.createServer((req, res) => {
   });
 
 
-  server.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/ - hurray!`);
+  server.listen(port, host, () => {
+    console.log(`Server running at ${hostname}:${port}/ - hurray!`);
   });
