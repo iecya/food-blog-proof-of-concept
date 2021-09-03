@@ -1,7 +1,7 @@
 const http = require('http');
 const {google} = require('googleapis');
 
-console.log(process.env.NODE_ENV);
+console.log("ENV: ", process.env);
 
 if (process.env.NODE_ENV != 'production') {
     require('dotenv').config();
