@@ -1,8 +1,6 @@
 const http = require('http');
 const {google} = require('googleapis');
 
-console.log("ENV: ", process.env);
-
 if (process.env.NODE_ENV != 'production') {
     require('dotenv').config();
 }
@@ -11,7 +9,6 @@ const SCOPES = ["https://www.googleapis.com/auth/drive.readonly"]
 
 
 let oauth2Client = new google.auth.GoogleAuth({
-    
     keyFile: './private/service_account.json',
     scopes: SCOPES
 });
@@ -27,10 +24,11 @@ const drive = google.drive({
 
 // filesRes.then(val => console.log(val.data.files)).catch(rej => console.log(rej));
 
-const host = process.env.HOST;
+const hostname = process.env.HOST;
 const port = process.env.PORT;
 
 const server = http.createServer((req, res) => {
+    console.log('REQUEST', req);
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
     res.end('Hello world');
@@ -45,6 +43,6 @@ const server = http.createServer((req, res) => {
   });
 
 
-  server.listen(port, host, () => {
-    console.log(`Server running at ${host}:${port}/ - hurray!`);
+  server.listen(port, hostname, () => {
+    console.log(`Server running at ${hostname}:${port}/ - hurray!`);
   });
