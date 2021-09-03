@@ -24,7 +24,7 @@ const drive = google.drive({
 
 // filesRes.then(val => console.log(val.data.files)).catch(rej => console.log(rej));
 
-const hostname = process.env.HOST;
+const hostname = process.env.HOSTNAME;
 const port = process.env.PORT;
 
 const server = http.createServer((req, res) => {
