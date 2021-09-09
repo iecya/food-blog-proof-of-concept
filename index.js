@@ -7,65 +7,70 @@ if (!isProduction) {
     require('dotenv').config();
 }
 
-// const SCOPES = ["https://www.googleapis.com/auth/drive.readonly"]
+const SCOPES = ["https://www.googleapis.com/auth/drive.readonly"]
 
 
-// let oauth2Client = new google.auth.GoogleAuth({
-//     keyFile: './private/service_account.json',
-//     scopes: SCOPES
-// });
+let oauth2Client = new google.auth.GoogleAuth({
+    keyFile: './private/service_account.json',
+    scopes: SCOPES
+});
 
-// const drive = google.drive({
-//     auth: oauth2Client,
-//     version: 'v3'
-// });
+const drive = google.drive({
+    auth: oauth2Client,
+    version: 'v3'
+});
 
-
-
-// const filesRes = drive.files.list();
-
-// filesRes.then(val => console.log(val.data.files)).catch(rej => console.log(rej));
+function listFiles() {
+    drive.files.list().then((res) => {
+        const files = res.data.files;
+        if (files.length) {
+            return files;
+        } else {
+            return 'No Files found';
+        }
+    })
+    // drive.files.list({}, (err, res) => {
+    //     if (err) return 'The API returned an error: ' + err;
+    //     const files = res.data.files;
+    //     if (files.length) {
+    //         return files;
+    //     } else {
+    //         return 'No files found.';
+    //     }
+    // });
+}
 
 const port = process.env.PORT;
 
 const server = http.createServer((req, res) => {
-    var content;
     switch(req.url) {
         case '/':
             res.statusCode = 200;
-            content = 'this is my homepage'
+            res.end('this is my homepage');
             break;
 
         case '/health':
             res.statusCode = 200;
-            content = 'healthy page';
+            res.end('healthy page');
             break;
 
         case '/files':
             res.statusCode = 200;
-            content = 'this is the files listing page';
+            drive.files.list().then((response) => {
+                const files = response.data.files;
+                console.log(files);
+                if (files.length) {
+                    res.end(JSON.stringify(files.filter(el => !el.mimeType.includes('folder')).map(el => el.name).join(' - ')));
+                } else {
+                    res.end('No Files found');
+                }
+            });
             break;
 
         default:
             res.statusCode = 404;
-            content = 'this page does not exists';   
+            res.end('this page does not exists');
     }
-    res.setHeader('Content-Type', 'text/plain');
-    res.end(content);
-
-
-    // res.statusCode = 200;
-    // res.setHeader('Content-Type', 'text/plain');
-    // res.end('Hello world');
-
-    // res.end(filesRes.then(val => {
-    //     if (val.error) {
-    //         console.log(val.error);
-    //         return 'Sorry, something went wrong'
-    //     } else {
-    //         val.data.files;
-    //     }
-    // }));
   });
 
 
