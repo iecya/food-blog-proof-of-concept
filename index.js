@@ -1,6 +1,17 @@
 const http = require('http');
 const {google} = require('googleapis');
 
+// ======= DEBUGGING JSON FILE START ======= //
+
+const fs = require('fs');
+fs.readFile('./private/service_account.json', (err, jsonString) => {
+    if (err) { console.log('something went wrong')};
+    console.log(jsonString.type, jsonString.client_id);
+});
+
+// ======= DEBUGGING JSON FILE END ======= //
+
+
 isProduction = process.env.NODE_ENV == 'production';
 
 if (!isProduction) {
@@ -20,26 +31,6 @@ const drive = google.drive({
     version: 'v3'
 });
 
-function listFiles() {
-    drive.files.list().then((res) => {
-        const files = res.data.files;
-        if (files.length) {
-            return files;
-        } else {
-            return 'No Files found';
-        }
-    })
-    // drive.files.list({}, (err, res) => {
-    //     if (err) return 'The API returned an error: ' + err;
-    //     const files = res.data.files;
-    //     if (files.length) {
-    //         return files;
-    //     } else {
-    //         return 'No files found.';
-    //     }
-    // });
-}
-
 const port = process.env.PORT;
 
 const server = http.createServer((req, res) => {
@@ -58,7 +49,6 @@ const server = http.createServer((req, res) => {
             res.statusCode = 200;
             drive.files.list().then((response) => {
                 const files = response.data.files;
-                console.log(files);
                 if (files.length) {
                     res.end(JSON.stringify(files.filter(el => !el.mimeType.includes('folder')).map(el => el.name).join(' - ')));
                 } else {
