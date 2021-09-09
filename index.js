@@ -6,7 +6,8 @@ const {google} = require('googleapis');
 const fs = require('fs');
 fs.readFile('./private/service_account.json', (err, jsonString) => {
     if (err) { console.log('something went wrong')};
-    console.log(jsonString.type, jsonString.client_id);
+    const parsedData = JSON.parse(jsonString);
+    console.log(parsedData.type, parsedData.client_id);
 });
 
 // ======= DEBUGGING JSON FILE END ======= //
