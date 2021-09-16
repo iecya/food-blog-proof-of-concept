@@ -10,6 +10,13 @@ fs.readFile('./private/service_account.json', (err, jsonString) => {
     console.log(parsedData.type, parsedData.client_id);
 });
 
+fs.readFile('./private/test.json', (err, jsonString) => {
+    if (err) { console.log('something went wrong')};
+    const parsedData = JSON.parse(jsonString);
+    console.log('parsed data:', parsedData);
+    console.log('unparsed data:', jsonString);
+});
+
 // ======= DEBUGGING JSON FILE END ======= //
 
 
