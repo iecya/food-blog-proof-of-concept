@@ -18,7 +18,7 @@ jobs:
       - name: Unstall git-crypt
         run: |
           git clone https://github.com/AGWA/git-crypt.git
-          cd git-crypt && make && make install PREFIX=/usr/bin
+          cd git-crypt && make && make install PREFIX=/usr
       - name: Unlock repository
         run: git-crypt unlock ${{ secrets.GIT_CRYPT_KEY }}
       - name: Login to Heroku Container registry
