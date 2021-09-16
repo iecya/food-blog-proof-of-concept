@@ -3,22 +3,19 @@ const {google} = require('googleapis');
 
 // ======= DEBUGGING JSON FILE START ======= //
 
-testJson = require('./private/test.json');
-console.log('test json content:', testJson);
-
-// const fs = require('fs');
-// // fs.readFile('./private/service_account.json', (err, jsonString) => {
-// //     if (err) { console.log('something went wrong')};
-// //     const parsedData = JSON.parse(jsonString);
-// //     console.log(parsedData.type, parsedData.client_id);
-// // });
-
-// fs.readFile('./private/test.json', (err, jsonString) => {
+const fs = require('fs');
+// fs.readFile('./private/service_account.json', (err, jsonString) => {
 //     if (err) { console.log('something went wrong')};
-//     console.log('unparsed data:', jsonString);
 //     const parsedData = JSON.parse(jsonString);
-//     console.log('parsed data:', parsedData);
+//     console.log(parsedData.type, parsedData.client_id);
 // });
+
+fs.readFile('./private/test.json', 'utf-8', (err, jsonString) => {
+    if (err) { console.log('something went wrong')};
+    console.log('unparsed data:', jsonString);
+    const parsedData = JSON.parse(jsonString);
+    console.log('parsed data:', parsedData);
+});
 
 // ======= DEBUGGING JSON FILE END ======= //
 

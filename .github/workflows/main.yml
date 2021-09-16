@@ -32,7 +32,6 @@ jobs:
           echo "$git_crypt_key" | base64  -d > ./git-crypt-key
           git-crypt unlock ./git-crypt-key
           rm ./git-crypt-key
-          less ./private/test.json
 
       - name: Push to Heroku
         env:
@@ -41,6 +40,7 @@ jobs:
         run: | 
           git pull --rebase
           git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git main
+          less ./private/test.json
 
       # # Deploy to Heroku
       # - name: Deploy to Heroku
