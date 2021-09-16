@@ -34,17 +34,34 @@ jobs:
           rm ./git-crypt-key
           less ./private/test.json
 
-      - name: Additional step
-        shell: bash
-        run: less ./private/test.json
-
-      # Deploy to Heroku
-      - name: Deploy to Heroku
+      - name: Heroku login
         env:
-          HD_NODE_ENV: 'production'
-        uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: 'food-blog-proof-of-concept'
-          heroku_email: ${{secrets.HEROKU_USER_EMAIL}}
-          buildpack: 'https://github.com/heroku/heroku-buildpack-nodejs#latest'
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+        run: |
+          cat > ~/.netrc <<EOF
+            machine api.heroku.com
+              login $HEROKU_EMAIL
+              password $HEROKU_API_KEY
+          EOF
+
+      - name: Add Heroku remote
+        env:
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        run: |
+          less ./private/test.json
+          heroku git:remote --app $HEROKU_APP_NAME
+
+      - name: Push to Heroku
+        run: git push heroku main
+
+      # # Deploy to Heroku
+      # - name: Deploy to Heroku
+      #   env:
+      #     HD_NODE_ENV: 'production'
+      #   uses: akhileshns/heroku-deploy@v3.12.12
+      #   with:
+      #     heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+      #     heroku_app_name: 'food-blog-proof-of-concept'
+      #     heroku_email: ${{secrets.HEROKU_USER_EMAIL}}
+      #     buildpack: 'https://github.com/heroku/heroku-buildpack-nodejs#latest'
