@@ -49,7 +49,9 @@ jobs:
         env:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku git:remote --app $HEROKU_APP_NAME
+        run: |
+          heroku git:remote --app $HEROKU_APP_NAME
+          git remote -v
 
       - name: Push to Heroku
         run: git push heroku main
