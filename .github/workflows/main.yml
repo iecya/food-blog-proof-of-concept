@@ -28,6 +28,10 @@ jobs:
           echo "$git_crypt_key" | base64  -d > ./git-crypt-key
           git-crypt unlock ./git-crypt-key
           rm ./git-crypt-key
+
+      - name: Debugging
+        run: git remote -v
+        
       - name: Login to Heroku Container registry
         env: 
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
