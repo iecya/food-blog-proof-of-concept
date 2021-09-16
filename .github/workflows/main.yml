@@ -30,8 +30,11 @@ jobs:
           rm ./git-crypt-key
 
       - name: Debugging
-        run: git remote -v
-        
+        run: |
+          git remote -v
+          git remote add heroku https://git.heroku.com/food-blog-proof-of-concept.git
+          git remote -v
+
       - name: Login to Heroku Container registry
         env: 
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
