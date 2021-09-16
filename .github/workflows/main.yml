@@ -33,6 +33,15 @@ jobs:
           git-crypt unlock ./git-crypt-key
           rm ./git-crypt-key
 
+      - name: Set Google drive creds
+        shell: bash
+        env:
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+          SERVICE_ACCOUNT: cat ./private/test.json
+        run: |
+          echo $SERVICE_ACCOUNT
+          heroku config:set SERVICE_ACCOUNT=$SERVICE_ACCOUNT -a $HEROKU_APP_NAME
+
       # Deploy to Heroku
       - name: Deploy to Heroku
         env:
