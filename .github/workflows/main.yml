@@ -20,10 +20,12 @@ jobs:
           git clone https://github.com/AGWA/git-crypt.git
           cd git-crypt && make && make install PREFIX=/opt/project
           echo "/opt/project/bin" >> $GITHUB_PATH
-      - name: Unlock repository
+      - name: Unlock git-crypt
         shell: bash
+        env:
+          git_crypt_key: ${{ secrets.GIT_CRYPT_KEY }}
         run: |
-          echo ${{ secrets.GIT_CRYPT_KEY }} | base64 -d >> ./git-crypt-key
+          echo "$git_crypt_key" | base64  -d > ./git-crypt-key
           git-crypt unlock ./git-crypt-key
           rm ./git-crypt-key
       - name: Login to Heroku Container registry
@@ -38,4 +40,3 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web 
-
