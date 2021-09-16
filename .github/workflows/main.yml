@@ -33,4 +33,4 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: 'food-blog-proof-of-concept'
           heroku_email: ${{secrets.HEROKU_USER_EMAIL}}
-          buildpacks: "['https://github.com/heroku/heroku-buildpack-nodejs#latest']"
+          buildpacks: "['https://github.com/heroku/heroku-buildpack-nodejs.git']"
