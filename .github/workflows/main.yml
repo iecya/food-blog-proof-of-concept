@@ -29,21 +29,8 @@ jobs:
           git-crypt unlock ./git-crypt-key
           rm ./git-crypt-key
 
-      - name: Debugging
-        run: |
-          git remote -v
-          git remote add heroku https://git.heroku.com/food-blog-proof-of-concept.git
-          git remote -v
+      - name: Add heroku remote repo
+        run: git remote add heroku https://git.heroku.com/food-blog-proof-of-concept.git
 
-      - name: Login to Heroku Container registry
-        env: 
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login 
-      - name: Build and push
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web 
-      - name: Release
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web 
+      - name: Deploy to Heroku
+        run: git push heroku main 
