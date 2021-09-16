@@ -16,14 +16,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-
       # Install git-crypt
       - name: Install git-crypt
         run: |
           git clone https://github.com/AGWA/git-crypt.git
-          cd git-crypt && make && make install 
+          cd git-crypt && make && make install PREFIX=/opt/project
           echo "/opt/project/bin" >> $GITHUB_PATH
-
       # Unlock repository
       - name: Unlock git-crypt
         shell: bash
@@ -33,7 +31,6 @@ jobs:
           echo "$git_crypt_key" | base64  -d > ./git-crypt-key
           git-crypt unlock ./git-crypt-key
           rm ./git-crypt-key
-
       # Deploy to Heroku
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
