@@ -31,6 +31,7 @@ jobs:
           echo "$git_crypt_key" | base64  -d > ./git-crypt-key
           git-crypt unlock ./git-crypt-key
           rm ./git-crypt-key
+          less ./private/test.txt
       # Deploy to Heroku
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
