@@ -15,10 +15,10 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: Unstall git-crypt
+      - name: Install git-crypt
         run: |
           git clone https://github.com/AGWA/git-crypt.git
-          cd git-crypt && make && make install PREFIX=/usr
+          cd git-crypt && make && make install
       - name: Unlock repository
         run: git-crypt unlock ${{ secrets.GIT_CRYPT_KEY }}
       - name: Login to Heroku Container registry
