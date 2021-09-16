@@ -22,7 +22,9 @@ jobs:
           GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
 
       - name: Additional steps
-        run: less ./private/test.json
+        run: |
+          less ./private/test.json
+          git status --porcelain
 
       # Deploy to Heroku
       - name: Deploy to Heroku
