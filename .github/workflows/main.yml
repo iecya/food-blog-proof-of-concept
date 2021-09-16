@@ -21,7 +21,7 @@ jobs:
           cd git-crypt && make && make install PREFIX=/opt/project
           echo "/opt/project/bin" >> $GITHUB_PATH
       - name: Unlock repository
-        run: git-crypt unlock ${{ secrets.GIT_CRYPT_KEY }}
+        run: echo ${{ secrets.GIT_CRYPT_KEY }} | base64 -d | git-crypt unlock 
       - name: Login to Heroku Container registry
         env: 
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
@@ -34,3 +34,31 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web 
+
+      # # Install git-crypt
+      # - name: Install git-crypt
+      #   run: |
+      #     git clone https://github.com/AGWA/git-crypt.git
+      #     cd git-crypt && make && make install 
+      #     echo "/opt/project/bin" >> $GITHUB_PATH
+
+      # # Unlock repository
+      # - name: Unlock git-crypt
+      #   shell: bash
+      #   env:
+      #     git_crypt_key: ${{ secrets.GIT_CRYPT_KEY }}
+      #   run: |
+      #     echo "$git_crypt_key" | base64  -d > ./git-crypt-key
+      #     git-crypt unlock ./git-crypt-key
+      #     rm ./git-crypt-key
+
+      # # Deploy to Heroku
+      # - name: Deploy to Heroku
+      #   uses: akhileshns/heroku-deploy@v3.12.12
+      #   env:
+      #     HD_NODE_ENV: 'production'
+      #   with:
+      #     heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+      #     heroku_app_name: 'food-blog-proof-of-concept'
+      #     heroku_email: ${{secrets.HEROKU_USER_EMAIL}}
+      #     buildpack: 'https://github.com/heroku/heroku-buildpack-nodejs#latest'
