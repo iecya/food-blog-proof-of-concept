@@ -15,11 +15,16 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+
+
+      # Install git-crypt
       - name: Install git-crypt
         run: |
           git clone https://github.com/AGWA/git-crypt.git
-          cd git-crypt && make && make install PREFIX=/opt/project
+          cd git-crypt && make && make install 
           echo "/opt/project/bin" >> $GITHUB_PATH
+
+      # Unlock repository
       - name: Unlock git-crypt
         shell: bash
         env:
@@ -29,8 +34,13 @@ jobs:
           git-crypt unlock ./git-crypt-key
           rm ./git-crypt-key
 
-      - name: Add heroku remote repo
-        run: git remote add heroku https://git.heroku.com/food-blog-proof-of-concept.git
-
+      # Deploy to Heroku
       - name: Deploy to Heroku
-        run: git push heroku main 
+        uses: akhileshns/heroku-deploy@v3.12.12
+        env:
+          HD_NODE_ENV: 'production'
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: 'food-blog-proof-of-concept'
+          heroku_email: ${{secrets.HEROKU_USER_EMAIL}}
+          buildpack: 'https://github.com/heroku/heroku-buildpack-nodejs#latest'
