@@ -5,6 +5,7 @@ const {google} = require('googleapis');
 
 const { exec } = require("child_process");
 exec('less ./private/test.json', (err, stdout, stderr) => {
+    console.log('hello world');
     console.log(`stdout: ${stdout}`);
     console.log(`stderr: ${stderr}`);
 });
