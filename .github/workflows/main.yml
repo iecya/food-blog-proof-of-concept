@@ -28,7 +28,7 @@ jobs:
       - name: Deploy to Heroku
         env:
           HD_NODE_ENV: 'production'
-        uses: akhileshns/heroku-deploy@v3.12.12
+        uses: CDNievas/heroku-action@v1.0
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: 'food-blog-proof-of-concept'
