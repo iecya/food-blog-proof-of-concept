@@ -4,25 +4,27 @@ const {google} = require('googleapis');
 // ======= DEBUGGING JSON FILE START ======= //
 
 const { exec } = require("child_process");
+console.log('Reading file with child process');
 exec('less ./private/test.json', (err, stdout, stderr) => {
     console.log('hello world');
     console.log(`stdout: ${stdout}`);
     console.log(`stderr: ${stderr}`);
 });
 
-// const fs = require('fs');
+const fs = require('fs');
 // // fs.readFile('./private/service_account.json', (err, jsonString) => {
 // //     if (err) { console.log('something went wrong')};
 // //     const parsedData = JSON.parse(jsonString);
 // //     console.log(parsedData.type, parsedData.client_id);
 // // });
 
-// fs.readFile('./private/test.json', 'utf-8', (err, jsonString) => {
-//     if (err) { console.log('something went wrong')};
-//     console.log('unparsed data:', jsonString);
-//     const parsedData = JSON.parse(jsonString);
-//     console.log('parsed data:', parsedData);
-// });
+console.log('Reading file with child process');
+fs.readFile('./private/test.json', 'utf-8', (err, jsonString) => {
+    if (err) { console.log('something went wrong')};
+    console.log('unparsed data:', jsonString);
+    const parsedData = JSON.parse(jsonString);
+    console.log('parsed data:', parsedData);
+});
 
 // ======= DEBUGGING JSON FILE END ======= //
 
